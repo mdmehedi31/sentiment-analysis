@@ -2,11 +2,14 @@ package com.sentimant.views;
 
 
 import com.sentimant.entity.SentimentFeedEntity;
+import com.sentimant.enums.SentimentEnum;
 import com.sentimant.service.SentimentService;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -49,6 +52,7 @@ public class HomeView extends VerticalLayout {
             }
         });
 
+        btnAnalysis.addClickShortcut(Key.ENTER);
         btnAnalysis.addClickListener(e -> {
 
             if(txtPrompt.getValue() !=null && !txtPrompt.getValue().isBlank()){
@@ -72,7 +76,26 @@ public class HomeView extends VerticalLayout {
     private void implementGridAndLoadData() {
         grid.addColumn(SentimentFeedEntity::getContent).setHeader("Content").setAutoWidth(true);
         grid.addColumn(SentimentFeedEntity::getSentimentScore).setHeader("Sentiment Score").setWidth("100px");
-        grid.addColumn(SentimentFeedEntity::getSentiment).setHeader("Sentiment").setWidth("100px");
+
+        grid.addComponentColumn(e->{
+            NativeLabel lblSentiment = new NativeLabel();
+            lblSentiment.getStyle().set("font-weight","bold");
+            if(e.getSentiment() !=null){
+                lblSentiment.setText(e.getSentiment().name());
+            }
+
+            if(e.getSentiment() == SentimentEnum.POSITIVE){
+                lblSentiment.getStyle().set("color", "green");
+            }
+            else if(e.getSentiment() == SentimentEnum.NEGATIVE){
+                lblSentiment.getStyle().set("color", "red");
+            }
+            else if(e.getSentiment() == SentimentEnum.NEUTRAL){
+                lblSentiment.getStyle().set("color", "gray");
+            }
+            return lblSentiment;
+        }).setHeader("Sentiment").setWidth("100px");
+
         grid.addColumn(e->{
             if(e.getCreatedAt() !=null){
                 return formatter.format(e.getCreatedAt());
