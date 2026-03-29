@@ -21,7 +21,7 @@ public class SentimentFeedEntity {
     private Double sentimentScore;
 
     @Column(name = "created_at")
-    private LocalDateTime createTime;
+    private LocalDateTime createdAt;
 
     @Column(name = "sentiment")
     @Enumerated(EnumType.STRING)
@@ -51,12 +51,12 @@ public class SentimentFeedEntity {
         this.sentimentScore = sentimentScore;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public SentimentEnum getSentiment() {
