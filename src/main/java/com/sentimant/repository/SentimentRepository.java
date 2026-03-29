@@ -1,4 +1,7 @@
 package com.sentimant.repository;
 
-public interface SentimentRepository {
+import com.sentimant.entity.SentimentFeedEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SentimentRepository extends JpaRepository<SentimentFeedEntity, Long> {
 }
